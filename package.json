@@ -1,0 +1,13 @@
+{
+  "name": "workouts",
+  "version": "1.0.0",
+  "description": "- je dois changer les sources (images  entre autres) --- # [Construisez un site e-commerce en JavaScript](https://openclassrooms.com/fr/projects/construisez-un-site-e-commerce-en-javascript/assignment)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "chrome front/html/index.html ; nodemon back/server.js "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
