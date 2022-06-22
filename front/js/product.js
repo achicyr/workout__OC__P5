@@ -4,7 +4,7 @@ const url = new URL(location)
 
 // console.log(new URL(location).searchParams.get('id'))
 
-localStorage.clear()
+// localStorage.clear()
 
 const id = url.searchParams.get('id')
 , theOrder = {}
