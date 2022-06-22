@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd front ; localserver & chrome html/index.html ; nodemon ../back/server.js ",
-    "ok": "chrome ."
+    "start": "nodemon back/server.js & cd front ; localserver & google-chrome html/index.html ",
+    "ok": "google-chrome ."
   },
   "keywords": [],
   "author": "",
