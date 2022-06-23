@@ -42,7 +42,37 @@ const getCartProducts = () => {
     totalQuantity.innerHTML = totalQty
     totalPrice.innerHTML = totalAmount
     // console.log(cart);
-    
+
+    // console.log(document.querySelectorAll('#cart__items .itemQuantity'))
+    document.querySelectorAll('#cart__items .itemQuantity').forEach((input) => {
+      input.addEventListener('change', (e) => {
+        // console.log(e.target.value);
+        // console.log(e.target.closest('article'));
+        // console.log(e.target.closest('article').dataset.id);
+        // console.log(e.target.closest('article').dataset.color);
+        // console.log(cart);
+        let variants = cart[e.target.closest('article').dataset.id].orders
+        , variant = variants.filter((variant) => {
+          // console.log(variant.color);
+          // console.log(e.target.closest('article').dataset.color);
+          // console.log(variant.color === e.target.closest('article').dataset.color);
+          return variant.color === e.target.closest('article').dataset.color
+        })[0]
+        // console.log(variants);
+        // console.log(variant);
+        variant.qty++
+        // console.log(variant);
+        // console.log(variants);
+        // console.log(cart);
+        console.log(localStorage);
+        for (const productID in localStorage) {
+          if (Object.hasOwnProperty.call(localStorage, productID)) {
+            localStorage[productID] = JSON.stringify(cart[productID])
+          }
+        }
+        console.log(localStorage);
+      })
+    })
 }
 
 getCartProducts()
