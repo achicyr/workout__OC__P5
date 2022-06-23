@@ -44,6 +44,36 @@ const getCartProducts = () => {
     // console.log(cart);
 
     // console.log(document.querySelectorAll('#cart__items .itemQuantity'))
+    document.querySelectorAll('#cart__items .deleteItem').forEach((input) => {
+      input.addEventListener('click', (e) => {
+        const productID = e.target.closest('article').dataset.id
+        , variants = cart[productID].orders
+        , variantIndex = variants.findIndex((variant) => {
+          // console.log(variant.color);
+          // console.log(e.target.closest('article').dataset.color);
+          // console.log(variant.color === e.target.closest('article').dataset.color);
+          return variant.color === e.target.closest('article').dataset.color
+        })
+        , doErase = confirm(`Souhaitez-vous vraiment supprimer de votre panier le produit suivant ?:\n"${ e.target.closest('article').querySelector('h2').innerHTML }"`)
+        console.log(variantIndex);
+        alert('ok')
+        if(doErase){
+          if(variants.length == 1){
+            console.log(localStorage);
+            delete localStorage[productID]
+            console.log(localStorage);
+          }
+          else{
+            console.log(localStorage);
+            console.log(variantIndex);
+            cart[productID].orders.splice(variantIndex, 1)
+            localStorage[productID] = JSON.stringify(cart[productID])
+            console.log(localStorage);
+          }
+          location.reload()
+        }
+      })
+    })
     document.querySelectorAll('#cart__items .itemQuantity').forEach((input) => {
       input.addEventListener('change', (e) => {
         // console.log(e.target.value);
@@ -51,7 +81,7 @@ const getCartProducts = () => {
         // console.log(e.target.closest('article').dataset.id);
         // console.log(e.target.closest('article').dataset.color);
         // console.log(cart);
-        let variants = cart[e.target.closest('article').dataset.id].orders
+        const variants = cart[e.target.closest('article').dataset.id].orders
         , variant = variants.filter((variant) => {
           // console.log(variant.color);
           // console.log(e.target.closest('article').dataset.color);
@@ -64,13 +94,13 @@ const getCartProducts = () => {
         // console.log(variant);
         // console.log(variants);
         // console.log(cart);
-        console.log(localStorage);
+        // console.log(localStorage);
         for (const productID in localStorage) {
           if (Object.hasOwnProperty.call(localStorage, productID)) {
             localStorage[productID] = JSON.stringify(cart[productID])
           }
         }
-        console.log(localStorage);
+        // console.log(localStorage);
       })
     })
 }
