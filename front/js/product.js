@@ -52,6 +52,7 @@ function fillProductPage (productID) {
 function fillCart (order) {
     const id = order._id
     , orderColor = order.orders[0].color
+    , cart = {...localStorage}
 
     if(!cart[id]){
         cart[id] = JSON.stringify(order)
