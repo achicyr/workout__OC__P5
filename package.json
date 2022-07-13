@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pwd & localserver & google-chrome http://localhost:9000/front/html/index.html"
+    "start": "node back/server & pwd & localserver & google-chrome http://localhost:9000/front/html/index.html"
   },
   "keywords": [],
   "author": "",
