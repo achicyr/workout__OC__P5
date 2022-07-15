@@ -1,4 +1,10 @@
-showCart()
+import Template from './Template.js'
+import {_localStorage2obj, _obj2localStorage} from "./localstorageTools.js"
+
+const template = new Template()
+, endpoint = "http://localhost:3000/api/products/order"
+
+showCartObject()
 
 
 
@@ -10,69 +16,50 @@ showCart()
  * * DANS LA SECONDE BOUCLE, ON INCRÉMENTE LES VARIABLES D'INSTANCE @instance{totalQty} et @instance{totalAmount}
  * * ET ENFIN TOUJOURS DANS LA SECONDE BOUCLE, ON AJOUTE AU DOM LES DIFFÉRENTES VARIANTES DE PRODUIT, PUIS LES TOTAUX(QUANTITÉS TOTALE, PRIX FINAL)
  */
-function showCart(){
+function showCartObject(){
     const ls = Object.keys(localStorage).length == 0 ? {} : _localStorage2obj() //STOCKER TEMPORAIREMENT LE LOCALSTORAGE DANS UNE VARIABLE AFIN DE LA RE-RESTITUER AU LOCALSTORAGE À LA FIN SOUS FORME DE STRING
     let totalQty = 0
     , totalAmount = 0
-    for(let id in ls){
-        const { _id,imageUrl,altTxt,name,orders,price } = ls[id]
+    , rand = Math.round((Math.random()))
+    , color
+    , id
+
+    
+    //JE BOUCLE ICI LE LOCALSTORAGE VIRTUEL POUR INTÉGRER SES DONNÉES VIA LE DOM
+    for(id in ls){
         console.log(ls[id]);
-        for(let color in orders){
-            totalQty += orders[color]
-            totalAmount += price * orders[color]
-            cart__items.innerHTML += `
-                <article class="cart__item" data-id="${_id}" data-color="{product-color}">
-                    <div class="cart__item__img">
-                        <img src="${imageUrl}" alt="${altTxt}">
-                    </div>
-                    <div class="cart__item__content">
-                        <div class="cart__item__content__description">
-                            <h2>${name}</h2>
-                            <p>${color}</p>
-                            <p>${price}</p>
-                        </div>
-                        <div class="cart__item__content__settings">
-                            <div class="cart__item__content__settings__quantity">
-                                <p>Qté : </p>
-                                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${orders[color]}">
-                            </div>
-                                <div class="cart__item__content__settings__delete">
-                                <p class="deleteItem">Supprimer</p>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `
-        }
+        let { orders,orders_,price } = ls[id]
+        , i = 0
+        if(rand)//POUR CHOISIR ENTRE LA VERSION ARRAY ET LA VERSION OBJECT DU PANIER
+            for(color in orders){
+                console.log("AFFICHÉ EN OBJET");
+                const id_ = id
+                , ii = i++
+                , article = template.cartProduct({...ls[id],color})
+                cart__items.append(article)
+                article.querySelector(`input.itemQuantity`).addEventListener("change", e=>template.updateCartProduct(e,{...ls},id_,ii))
+                article.querySelector(`p.deleteItem`).addEventListener("click", e=>template.cutCartProduct(e,{...ls},id_,ii))
+            }
+        else
+            orders_.forEach((order,i) => {
+                console.log("AFFICHÉ EN ARRAY",i);
+                const {color, qty} = order
+                , id_ = id
+                , article = template.cartProduct({...ls[id_],color},order)
+                cart__items.append(article)
+                article.querySelector(`input.itemQuantity`).addEventListener("change", e=>template.updateCartProduct(e,{...ls},id_,i))
+                article.querySelector(`p.deleteItem`).addEventListener("click", e=>template.cutCartProduct(e,{...ls},id_,i))
+                
+            })
     }
-    totalQuantity.innerHTML = totalQty
-    totalPrice.innerHTML = totalAmount
+    template.resetCartTotal()
 }
 
+order.closest('.cart__order__form').addEventListener('submit', e => {
+    console.log(e.target);
+    e.preventDefault()
+    fetch(order, {contact})
+})
 
 
 
-/**
- * * LE LOCALSTORAGE EST UN OBJET DE CHAÎNE DE CARACTÈRES,
- * * IL FAUT LE TRANSFORMER EN OBJET D'OBJETS POUR POUVOIR LE TRANSFORMER
- * @returns le localstorage transformer un objet d'objet
- */
-function _localStorage2obj(){
-    const obj = {}
-    for(let key in localStorage)if(localStorage.hasOwnProperty(key))
-        obj[key] = JSON.parse(localStorage[key])
-    console.log(obj);
-    return obj
-}
-
-
-/**
- * * LE LOCALSTORAGE EST UN OBJET DE CHAÎNE DE CARACTÈRES,
- * * IL FAUT LE TRANSFORMER EN OBJET D'OBJETS POUR POUVOIR LE TRANSFORMER
- * @param {object} obj le localstorage transformer un objet d'objet
- * @returns le @param(obj) transformé pour le localstorage
- */
-function _obj2localStorage(obj){
-    for(let key in obj)
-        localStorage[key] = JSON.stringify(obj[key])
-}

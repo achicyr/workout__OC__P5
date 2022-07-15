@@ -31,7 +31,7 @@ function getProduct(url = endpoint, id = productID){
             description.innerHTML = product.description
             product.colors.forEach(color=>{colors.innerHTML += `<option value="${color}">${color}</option>`})
 
-            //MAINTENANT QUE J'AI LES DONNÉES LE PRODUIT, 
+            //MAINTENANT QUE J'AI LES DONNÉES DU PRODUIT, 
             //J'AJOUTE L'ÉVÈNEMENT AU PANIER
             addToLocalStorage(product)
         })
@@ -58,10 +58,10 @@ function addToLocalStorage(product){
     */
 
 
-    const ls = Object.keys(localStorage).length == 0 ? {} : _localStorage2obj() //STOCKER TEMPORAIREMENT LE LOCALSTORAGE DANS UNE VARIABLE AFIN DE LA RE-RESTITUER AU LOCALSTORAGE À LA FIN SOUS FORME DE STRING
-    let tmp //UNE  VARIABLE TEMPORAIRE QUI SERA UTILISER COMME VARIABLE TAMPON UNE OU PLUSIEUR FOIS AU COURS DU SCRIPT DE CETTE FONCTION
-    console.log(ls);
-    addToCart.addEventListener("click", () => {
+   addToCart.addEventListener("click", () => {
+        const ls = Object.keys(localStorage).length == 0 ? {} : _localStorage2obj() //STOCKER TEMPORAIREMENT LE LOCALSTORAGE DANS UNE VARIABLE AFIN DE LA RE-RESTITUER AU LOCALSTORAGE À LA FIN SOUS FORME DE STRING
+        let tmp_, tmp //UNE  VARIABLE TEMPORAIRE QUI SERA UTILISER COMME VARIABLE TAMPON UNE OU PLUSIEUR FOIS AU COURS DU SCRIPT DE CETTE FONCTION
+        console.log(ls);
         console.log(localStorage);
         if(colors.value=="" || quantity.value==0){
             alert("Erreur: Vous devez choisir une couleur de canapé, ainsi qu'une quantité svp")
@@ -78,21 +78,25 @@ function addToLocalStorage(product){
             // UN OBJET CORRESPONDANT AUX DONNÉES AU PRODUIT (...product), 
             // ET UN OBJET CORRESPONDANT À L'ORDRE DU PRODUIT (orders)
 
-            // /*CAS AVEC UN ARRAY EN ORDER*/ ls[productID] = {...product, orders:[{color:colors.value,qty:parseInt(quantity.value)}]}
-             /*CAS AVEC UN OBJET EN ORDER*/ ls[productID] = {...product, orders:{[colors.value]:parseInt(quantity.value)}}
+            ls[productID] = {...product
+                , orders_:[{color:colors.value,qty:parseInt(quantity.value)}]/*CAS AVEC UN ARRAY EN ORDER*/
+                , orders:{[colors.value]:parseInt(quantity.value)}/*CAS AVEC UN OBJET EN ORDER*/
+            }
             console.log("1°) ls: ",ls);
 
         }else{
 
             //CAS 2°)
-            // /*CAS AVEC UN ARRAY EN ORDER*/ if(!(tmp = ls[productID].orders.find( order => order.color == colors.value ))){
-             /*CAS AVEC UN OBJET EN ORDER*/if(!(tmp = ls[productID].orders)[colors.value]){
+            /*CAS AVEC UN ARRAY EN ORDER*/ if(!(tmp_ = ls[productID].orders_.find( order => order.color == colors.value )) &&/*){*/
+            /*CAS AVEC UN OBJET EN ORDER*/ /*if(*/!(tmp = ls[productID].orders)[colors.value]){
 
+                console.log(tmp);
+                console.log(tmp_);
                 //ICI LA COULEUR CHOISIE N'EXISTE PAS ENCORE DANS LE PANIER
                 // ON RAJOUTER UN OBJET À L'ARRAY DE L'ORDRE
 
-                // /*CAS AVEC UN ARRAY EN ORDER*/ls[productID].orders.push({color:colors.value,qty:parseInt(quantity.value)})
-                 /*CAS AVEC UN OBJET EN ORDER*/ls[productID].orders[[colors.value]] = parseInt(quantity.value)
+                /*CAS AVEC UN ARRAY EN ORDER*/ ls[productID].orders_.push({color:colors.value,qty:parseInt(quantity.value)})
+                /*CAS AVEC UN OBJET EN ORDER*/ ls[productID].orders[[colors.value]] = parseInt(quantity.value)
                 console.log("2a°) ls: ",ls);
                 
             }else{
@@ -100,16 +104,18 @@ function addToLocalStorage(product){
                 //ICI LA COULEUR CHOISIE !!!EXISTE DÉJÀ!!! DANS LE PANIER
                 // ON MODIFIE LA QUANTITÉ DE L'ARRAY DE LORDRE CORRESPONDANT 
                 // DANS CETTE CONDITION, LA VARIABLE tmp DEVRAIT CONTENIR L'ORDRE CONCERNANT CETTE COULEUR DE CE PRODUIT
+                tmp = ls[productID].orders
+                console.log(tmp_);
                 console.log(tmp);
-
-                // /*CAS AVEC UN ARRAY EN ORDER*/ tmp.qty += parseInt(quantity.value)
-                 /*CAS AVEC UN OBJET EN ORDER*/ tmp[[colors.value]] += parseInt(quantity.value)
+                
+                /*CAS AVEC UN ARRAY EN ORDER*/ tmp_.qty += parseInt(quantity.value)
+                /*CAS AVEC UN OBJET EN ORDER*/ tmp[[colors.value]] += parseInt(quantity.value)
                 console.log("2b°) ls: ",ls);
             }
         }
 
         _obj2localStorage(ls)
-        localStorage = JSON.stringify(ls)
+        // localStorage = JSON.stringify(ls)
         console.log(localStorage);
         
     })
