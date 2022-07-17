@@ -1,3 +1,5 @@
+import {_obj2localStorage,_localStorage2obj} from "./localstorageTools.js"
+
 // const productID = location.href.substring(location.href.indexOf('id=')+3)
 const params = new URL(location).searchParams
 , productID = params.get('id')
@@ -44,7 +46,7 @@ function getProduct(url = endpoint, id = productID){
  * ? SI LE PRODUIT N'EXISTE PAS DANS LE PANIER(EN VÉRIFIANT SON ID)
  * ? SI LE PRODUIT Y EXITSTE DÉJÀ, MAIS PAS LA COULEUR CHOISIE (ACTUALISATION DE LA COMMANDE DU PRODUIT)
  * ? SI LA COULEUR À DÉJÀ ÉTÉ CHOISI (ACTUALISATION DE LA QUANTITÉ DE LA COMMANDE DU PRODUIT)
- * ! À LA DÉBUT DE L'ÉVÈNEMENT, L'INSTANCE @instance(ls) EST AFFECTÉ DE LA VALEUR DU LOCALSTORAGE GRÂCE À LA FONCTION _localStorage2obj
+ * ! AU DÉBUT DE L'ÉVÈNEMENT, L'INSTANCE @instance(ls) EST AFFECTÉ DE LA VALEUR DU LOCALSTORAGE GRÂCE À LA FONCTION _localStorage2obj
  * ! À LA FIN DE L'ÉVÈNEMENT, LE LOCALSTORAGE EST RÉAFFECTÉ DE L'INSTANCE @instance(ls) GRÂCE À LA FONCTION _obj2localStorage
  * @param {object} product contient les données de l'objet affiché sur la page
  */
@@ -104,9 +106,9 @@ function addToLocalStorage(product){
                 //ICI LA COULEUR CHOISIE !!!EXISTE DÉJÀ!!! DANS LE PANIER
                 // ON MODIFIE LA QUANTITÉ DE L'ARRAY DE LORDRE CORRESPONDANT 
                 // DANS CETTE CONDITION, LA VARIABLE tmp DEVRAIT CONTENIR L'ORDRE CONCERNANT CETTE COULEUR DE CE PRODUIT
-                tmp = ls[productID].orders
-                console.log(tmp_);
-                console.log(tmp);
+                tmp = ls[productID].orders //je ne sais pas vraiment pourquoi, mais tmp (ligne93) dans la condition n'est pas assigné de valeur, donc je le fait là
+                // console.log(tmp_);
+                // console.log(tmp);
                 
                 /*CAS AVEC UN ARRAY EN ORDER*/ tmp_.qty += parseInt(quantity.value)
                 /*CAS AVEC UN OBJET EN ORDER*/ tmp[[colors.value]] += parseInt(quantity.value)
@@ -115,37 +117,9 @@ function addToLocalStorage(product){
         }
 
         _obj2localStorage(ls)
-        // localStorage = JSON.stringify(ls)
         console.log(localStorage);
         
     })
 
 }
 
-
-
-
-/**
- * * LE LOCALSTORAGE EST UN OBJET DE CHAÎNE DE CARACTÈRES,
- * * IL FAUT LE TRANSFORMER EN OBJET D'OBJETS POUR POUVOIR LE TRANSFORMER
- * @returns le localstorage transformer un objet d'objet
- */
-function _localStorage2obj(){
-    const obj = {}
-    for(let key in localStorage)if(localStorage.hasOwnProperty(key))
-        obj[key] = JSON.parse(localStorage[key])
-    console.log(obj);
-    return obj
-}
-
-
-/**
- * * LE LOCALSTORAGE EST UN OBJET DE CHAÎNE DE CARACTÈRES,
- * * IL FAUT LE TRANSFORMER EN OBJET D'OBJETS POUR POUVOIR LE TRANSFORMER
- * @param {object} obj le localstorage transformer un objet d'objet
- * @returns le @param(obj) transformé pour le localstorage
- */
-function _obj2localStorage(obj){
-    for(let key in obj)
-        localStorage[key] = JSON.stringify(obj[key])
-}

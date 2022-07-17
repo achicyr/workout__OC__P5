@@ -77,27 +77,37 @@
               <form method="get" class="cart__order__form">
                 <div class="cart__order__form__question">
                   <label for="firstName">Prénom: </label>
-                  <input type="text" name="firstName" id="firstName" pattern="\b[^\s\d]+\b" required>
+                  <input type="text" name="firstName" id="firstName" 
+                    placeholder="Dubosque-de-la-joie (Nom sans espace)" 
+                    pattern="\b[^\s\d]+\b" required>
                   <p id="firstNameErrorMsg"><!-- ci est un message d'erreur --></p>
                 </div>
                 <div class="cart__order__form__question">
                   <label for="lastName">Nom: </label>
-                  <input type="text" name="lastName" id="lastName" pattern="\b[^\s\d]+\b" required>
+                  <input type="text" name="lastName" id="lastName" 
+                    placeholder="Jean-François (Prénom sans espace)" 
+                    pattern="\b[^\s\d]+\b" required>
                   <p id="lastNameErrorMsg"></p>
                 </div>
                 <div class="cart__order__form__question">
                   <label for="address">Adresse: </label>
-                  <input type="text" name="address" id="address" pattern="^\d{1,5}\s+(rue|boulevard|avenue|bld|bd|av|impasse|imp|chemin)\s+[a-zA-Z\s]*[^\s]$" required>
+                  <input type="text" name="address" id="address" 
+                    placeholder="23677 rue|boulevard|chemin|... nom de la rue ou du boulevard" 
+                    pattern="^\d{1,5}\s+(rue|boulevard|avenue|bld|bd|av|impasse|imp|chemin)\s+[a-zA-Z\s]*[^\s]$" required>
                   <p id="addressErrorMsg"></p>
                 </div>
                 <div class="cart__order__form__question">
                   <label for="city">Ville: </label>
-                  <input type="text" name="city" id="city" pattern="([^\d\s]+\s?){1,3}" required>
+                  <input type="text" name="city" id="city" 
+                    placeholder="Mont-le-précipice (Nom de ville sans espace)" 
+                    pattern="([^\d\s]+\s?){1,3}" required>
                   <p id="cityErrorMsg"></p>
                 </div>
                 <div class="cart__order__form__question">
                   <label for="email">Email: </label>
-                  <input type="email" name="email" id="email" pattern="[^\d\s]+@[^\d\s]+\.[^\d\s]{1,5}" required>
+                  <input type="email" name="email" id="email" 
+                    placeholder="exemple@email.com" 
+                    pattern="[^\d\s]+@[^\d\s]+\.[^\d\s]{1,5}" required>
                   <p id="emailErrorMsg"></p>
                 </div>
                 <div class="cart__order__form__submit">

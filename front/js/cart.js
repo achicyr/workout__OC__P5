@@ -55,11 +55,7 @@ function showCartObject(){
     template.resetCartTotal()
 }
 
-order.closest('.cart__order__form').addEventListener('submit', e => {
-    console.log(e.target);
-    e.preventDefault()
-    fetch(order, {contact})
-})
+order.closest('.cart__order__form').addEventListener('submit', e => template.sendForm(e,endpoint))
 
 
 
