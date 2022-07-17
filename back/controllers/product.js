@@ -5,7 +5,8 @@ exports.getAllProducts = (req, res, next) => {
   Product.find().then(
     (products) => {
       const mappedProducts = products.map((product) => {
-        product.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + product.imageUrl;
+        // product.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + product.imageUrl;
+        product.imageUrl = '/images/' + product.imageUrl;
         return product;
       });
       res.status(200).json(mappedProducts);
