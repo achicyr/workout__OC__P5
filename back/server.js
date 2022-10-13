@@ -33,6 +33,8 @@ const errorHandler = error => {
   }
 };
 
+console.log("Je suis un serveur nodeJS");
+
 const server = http.createServer(app);
 
 server.on('error', errorHandler);

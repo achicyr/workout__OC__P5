@@ -3,9 +3,11 @@ import Header from '../../components/Header'
 import Nav from '../../components/Nav'
 import Aside from '../../components/Aside'
 import Footer from '../../components/Footer'
+import products from './../product'
 import { Link } from 'react-router-dom'
 import "../../assets/css/style.css"
 
+console.log(products);
 
 function Home() {
     let endpoint = "http://localhost:3000/api/products"
@@ -56,7 +58,7 @@ function addProductsInHome(arr, setListProducts){
         arr.map((product,i) => {
             return <Link to={"product/id="+product._id} key={i}>
                         <article>
-                            <img src={product.imageUrl} alt={product.altTxt} />
+                            <img src={"images/"+product.imageUrl} alt={product.altTxt} />
                             <h3 className="productName">{product.name}</h3>
                             <p className="productDescription">{product.description}</p>
                         </article>
@@ -76,7 +78,7 @@ function loadProducts(url, setListProducts){
         .then((json) => {
             console.log(json);
             addProductsInHome(json, setListProducts)
-        })
+        }).catch(() => { console.log(products); addProductsInHome(products, setListProducts) })
 }
 
 

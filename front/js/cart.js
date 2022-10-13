@@ -59,3 +59,4 @@ order.closest('.cart__order__form').addEventListener('submit', e => template.sen
 
 
 
+export default [showCartObject]

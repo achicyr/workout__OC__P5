@@ -19,6 +19,7 @@ root.render(
 				<Route path="/product/id=:id" element={<Product />}></Route>
 				<Route path="/cart" element={<Cart />}></Route>
 				<Route path="/confirmation/orderId=:id" element={<Confirmation />}></Route>
+				<Route path="*" element={<Home />}></Route>
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

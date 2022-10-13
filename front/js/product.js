@@ -123,3 +123,5 @@ function addToLocalStorage(product){
 
 }
 
+export default [getProduct, addToLocalStorage]
+

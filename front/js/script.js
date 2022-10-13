@@ -32,3 +32,5 @@ function loadProducts(url){
             addProductsInHome(json)
         })
 }
+
+export default [addProductsInHome, loadProducts]
